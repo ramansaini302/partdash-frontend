@@ -1,0 +1,304 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PartDash | Car Parts in Minutes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="script" href="script.js">
+</head>
+<body>
+  <div class="announcement">
+    ⚡ Delivery in 30 minutes <span>Free delivery over ₹499</span>
+  </div>
+
+  <header>
+    <a href="#" class="logo"><i>↯</i>partdash</a>
+
+    <nav>
+      <a href="#categories">Categories</a>
+      <a href="#products">Popular parts</a>
+    </nav>
+
+    <button class="cart-btn" id="openCart">
+      Cart <b id="cartCount">0</b>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">YOUR GARAGE, REPLENISHED</p>
+        <h1>Car spare parts<br>at your doorstep.</h1>
+        <p class="hero-description">
+          Genuine batteries, brakes, lights, oils and more—delivered fast.
+        </p>
+
+        <form class="search-box" id="searchForm">
+          <input id="searchInput" type="search" placeholder="Search parts, brands or car models">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="hero-art">
+        <div class="delivery-badge">DELIVERY<br><strong>30</strong> MIN</div>
+        <div class="tyre">✦</div>
+      </div>
+    </section>
+
+    <section class="benefits">
+      <article>
+        <span>⚡</span>
+        <div><b>30 minute delivery</b><small>At home or your garage</small></div>
+      </article>
+      <article>
+        <span>✓</span>
+        <div><b>Genuine spare parts</b><small>Trusted brands only</small></div>
+      </article>
+      <article>
+        <span>↻</span>
+        <div><b>Easy returns</b><small>7-day return policy</small></div>
+      </article>
+    </section>
+
+    <section id="categories">
+      <div class="section-title">
+        <div>
+          <h2>Shop by category</h2>
+          <p>Find the right part for your car</p>
+        </div>
+        <button class="link-btn" id="showAll">View all →</button>
+      </div>
+
+      <div class="category-grid" id="categoryGrid"></div>
+    </section>
+
+    <section id="products">
+      <div class="section-title">
+        <div>
+          <h2>Popular near you</h2>
+          <p id="resultText">Ready for delivery in 30 minutes</p>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="car-banner">
+      <div>
+        <h2>Not sure what fits your car?</h2>
+        <p>Search with your car model, such as Swift, Baleno, i20, Creta or Nexon.</p>
+        <button id="findParts">Find compatible parts →</button>
+      </div>
+      <strong>↯</strong>
+    </section>
+  </main>
+  <!-- MY ORDERS -->
+<section class="my-orders-section" id="myOrders">
+
+    <div class="track-order-header">
+        <h2>My Orders</h2>
+        <p>Enter your phone number to see your previous orders.</p>
+    </div>
+
+    <div class="track-order-form">
+        <input
+            type="tel"
+            id="myOrdersPhone"
+            placeholder="Phone Number"
+            maxlength="10"
+        >
+
+        <button onclick="loadMyOrders()">
+            View Orders
+        </button>
+    </div>
+
+    <div id="myOrdersResult"></div>
+
+</section>
+  <footer>
+    <span>© 2026 PartDash</span>
+    <span>Built for cars that cannot wait.</span>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+
+  <aside class="cart-panel" id="cartPanel">
+    <div class="cart-header">
+      <div>
+        <p>Your order</p>
+        <h2>Shopping cart</h2>
+      </div>
+      <button class="close-btn" id="closeCart">×</button>
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-total" id="cartTotal"></div>
+  </aside>
+
+  <dialog id="checkoutDialog">
+    <div class="checkout-box">
+      <button class="close-btn dialog-close" id="closeCheckout">×</button>
+
+      <h2>Checkout</h2>
+      <p class="muted">Choose an address and payment method.</p>
+
+      <div class="checkout-section">
+        <div class="checkout-heading">
+          <h3>Delivery address</h3>
+          <button class="link-btn" id="toggleAddressForm">+ Add address</button>
+        </div>
+
+        <div id="addressList"></div>
+
+        <form class="address-form hidden" id="addressForm">
+          <input id="addressLabel" placeholder="Address label (Home, Garage, Work)">
+          <input id="fullName" placeholder="Full name" required>
+          <input id="mobile" placeholder="10-digit mobile number" maxlength="10" required>
+          <textarea id="fullAddress" placeholder="House / garage number, street, landmark" required></textarea>
+
+          <div class="two-inputs">
+            <input id="city" placeholder="City" required>
+            <input id="pincode" placeholder="Pincode" maxlength="6" required>
+          </div>
+
+          <button type="submit" class="save-address-btn">Save address</button>
+        </form>
+      </div>
+
+      <div class="checkout-section">
+        <h3>Payment method</h3>
+
+        <label class="payment-option">
+          <input type="radio" name="payment" value="Cash on Delivery" checked>
+          <span>💵</span>
+          <div>
+            <b>Cash on delivery</b>
+            <small>Pay when your order arrives</small>
+          </div>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="payment" value="UPI">
+          <span>📱</span>
+          <div>
+            <b>UPI payment</b>
+            <small>Google Pay, PhonePe, Paytm and more</small>
+          </div>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="payment" value="Card">
+          <span>💳</span>
+          <div>
+            <b>Credit or debit card</b>
+            <small>Secure card payment</small>
+          </div>
+        </label>
+      </div>
+
+      <button class="place-order-btn" id="placeOrder">
+        Place order
+      </button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+  <section class="track-order-section">
+
+    <div class="track-order-header">
+        <h2>Track Your Order</h2>
+        <p>Enter your Order ID and phone number to see the latest delivery status.</p>
+    </div>
+
+    <div class="track-order-form">
+
+        <input
+            type="number"
+            id="trackOrderId"
+            placeholder="Order ID"
+        >
+
+        <input
+            type="tel"
+            id="trackPhone"
+            placeholder="Phone Number"
+        >
+
+        <button onclick="trackOrder()">
+            Track Order
+        </button>
+
+    </div>
+
+    <div id="trackOrderResult"></div>
+
+</section>
+<!-- TEST SIGNUP -->
+<section style="max-width:500px;margin:40px auto;padding:20px;">
+    <h2>Create Account</h2>
+
+    <form onsubmit="return signupUser(event);">
+        <input
+            id="signupName"
+            type="text"
+            placeholder="Full name"
+            required
+        >
+
+        <input
+            id="signupEmail"
+            type="email"
+            placeholder="Email"
+            required
+        >
+
+        <input
+            id="signupPassword"
+            type="password"
+            placeholder="Password"
+            minlength="6"
+            required
+        >
+
+        <button type="submit">
+            Create Account
+        </button>
+    </form>
+
+    <p id="signupResult"></p>
+</section>
+<section class="customer-login-section">
+
+    <h2>Login</h2>
+
+    <input
+        id="loginEmail"
+        type="email"
+        placeholder="Email"
+        required
+    >
+
+    <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password"
+        required
+    >
+
+    <button type="button" onclick="loginUser()">
+        Login
+    </button>
+
+    <p id="loginResult"></p>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PartDash Admin Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .login-screen {
+    position: fixed;
+    inset: 0;
+    background: #f4f6f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.login-box {
+    width: 360px;
+    max-width: 90%;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+}
+
+.login-box h1 {
+    margin: 0 0 8px;
+}
+
+.login-box p {
+    color: #666;
+}
+
+.login-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#loginMessage {
+    margin-top: 12px;
+    font-size: 14px;
+}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #172033;
+        }
+
+        .topbar {
+            background: #111827;
+            color: white;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .admin-label {
+            font-size: 14px;
+            opacity: .8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .refresh-btn {
+            border: 0;
+            background: #111827;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .refresh-btn:hover {
+            opacity: .9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #111827;
+        }
+
+        .orders {
+            display: grid;
+            gap: 18px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-id {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .customer {
+            margin-top: 6px;
+            color: #555;
+        }
+
+        .status-select {
+            padding: 9px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+            padding: 14px;
+            border-radius: 10px;
+        }
+
+        .detail-title {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .items {
+            margin-top: 18px;
+        }
+
+        .items-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 11px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .item-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .order-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .date {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 14px;
+            color: #777;
+        }
+
+        .error {
+            background: #fff1f2;
+            color: #b91c1c;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .title-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .order-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<body>
+
+<div id="loginScreen" class="login-screen">
+    <div class="login-box">
+        <h1>PartDash Admin</h1>
+        <p>Sign in to continue</p>
+
+        <form id="loginForm">
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Admin email"
+                required
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">Login</button>
+
+            <p id="loginMessage"></p>
+        </form>
+    </div>
+</div>
+
+<header class="topbar">
+    <div class="logo">PartDash</div>
+    <div class="admin-label">Admin Dashboard</div>
+</header>
+
+<main class="container" id="adminDashboard">
+    <!-- आपका पूरा existing dashboard यहाँ रहेगा -->
+<header class="topbar">
+    <div class="logo">PartDash</div>
+    <div class="admin-label">Admin Dashboard</div>
+</header>
+
+<main class="container" id="adminDashboard">
+
+    <div class="title-row">
+        <div>
+            <h1>Orders</h1>
+            <p>Manage your PartDash orders</p>
+        </div>
+
+        <button class="refresh-btn" onclick="loadOrders()">
+            ↻ Refresh
+        </button>
+    </div>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-title">Total Orders</div>
+            <div class="stat-value" id="totalOrders">0</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Pending</div>
+            <div class="stat-value" id="pendingOrders">0</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Shipped</div>
+            <div class="stat-value" id="shippedOrders">0</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-title">Total Sales</div>
+            <div class="stat-value" id="totalSales">₹0</div>
+        </div>
+
+    </section>
+
+    <input
+        id="search"
+        class="search-box"
+        type="text"
+        placeholder="Search by order ID, customer name or phone..."
+        oninput="renderOrders()"
+    >
+    <section style="margin-top:40px;">
+
+    <div class="title-row">
+        <div>
+            <h1>Products</h1>
+            <p>Manage PartDash spare parts</p>
+        </div>
+
+        <button class="refresh-btn" onclick="loadProducts()">
+            ↻ Refresh
+        </button>
+    </div>
+
+    <button
+        class="refresh-btn"
+        onclick="openProductForm()"
+        style="margin-bottom:20px;"
+    >
+        + Add Product
+    </button>
+
+    <div id="productForm"
+         style="
+            display:none;
+            background:white;
+            padding:20px;
+            border-radius:14px;
+            margin-bottom:20px;
+         ">
+
+        <h2 id="formTitle">Add Product</h2>
+
+        <input id="productName"
+               class="search-box"
+               placeholder="Product name">
+
+        <input id="productDescription"
+               class="search-box"
+               placeholder="Description">
+
+        <input id="productPrice"
+               class="search-box"
+               type="number"
+               placeholder="Price">
+
+        <input id="productOldPrice"
+               class="search-box"
+               type="number"
+               placeholder="Old price">
+
+        <input id="productStock"
+               class="search-box"
+               type="number"
+               placeholder="Stock">
+
+        <input id="productCategory"
+               class="search-box"
+               placeholder="Category">
+
+        <input id="productFit"
+               class="search-box"
+               placeholder="Fit">
+
+        <input id="productBadge"
+               class="search-box"
+               placeholder="Badge">
+
+        <input id="productImage"
+               class="search-box"
+               placeholder="Image URL">
+
+        <input id="productIcon"
+               class="search-box"
+               placeholder="Icon">
+
+        <button
+            class="refresh-btn"
+            onclick="saveProduct()">
+            Save Product
+        </button>
+
+        <button
+            class="refresh-btn"
+            onclick="closeProductForm()"
+            style="margin-left:8px;">
+            Cancel
+        </button>
+
+    </div>
+
+    <input
+        id="productSearch"
+        class="search-box"
+        placeholder="Search products..."
+        oninput="renderProducts()"
+    >
+
+    <div id="products">
+        Loading products...
+    </div>
+
+</section>
+    <section id="orders" class="orders">
+        Loading orders...
+    </section>
+
+</main>
+
+<script>
+    
+
+function adminHeaders() {
+    const token = localStorage.getItem("partdash-admin-token");
+
+    return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+    };
+}
+
+function handleAdminResponse(response) {
+    if (response.status === 401) {
+        localStorage.removeItem("partdash-admin-token");
+        location.reload();
+        return false;
+    }
+
+    return true;
+}
+
+
+
+const API = "http://localhost:5000";
+
+let orders = [];
+
+async function loadOrders() {
+    const container = document.getElementById("orders");
+
+    container.innerHTML = "Loading orders...";
+
+    try {
+        const response = await fetch(
+            `${API}/api/admin/orders`,
+            {
+                method: "GET",
+                headers: adminHeaders()
+            }
+        );
+
+        if (!handleAdminResponse(response)) {
+            return;
+        }
+
+        const result = await response.json();
+
+        console.log("ORDERS RESPONSE:", result);
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Failed to load orders");
+        }
+
+        orders = result.data || [];
+
+        updateStats();
+        renderOrders();
+
+    } catch (error) {
+        console.error("LOAD ORDERS ERROR:", error);
+
+        container.innerHTML = `
+            <div class="error">
+                Could not load orders.<br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+function updateStats() {
+
+    document.getElementById("totalOrders").textContent =
+        orders.length;
+
+    document.getElementById("pendingOrders").textContent =
+        orders.filter(order =>
+            order.status === "Pending"
+        ).length;
+
+    document.getElementById("shippedOrders").textContent =
+        orders.filter(order =>
+            order.status === "Shipped"
+        ).length;
+
+    const sales = orders.reduce(
+        (sum, order) =>
+            sum + Number(order.total_amount || 0),
+        0
+    );
+
+    document.getElementById("totalSales").textContent =
+        "₹" + sales.toLocaleString("en-IN");
+}
+
+
+function renderOrders() {
+
+    const container = document.getElementById("orders");
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered = orders.filter(order => {
+
+        return (
+            String(order.id)
+                .toLowerCase()
+                .includes(search) ||
+
+            String(order.customer_name || "")
+                .toLowerCase()
+                .includes(search) ||
+
+            String(order.phone || "")
+                .toLowerCase()
+                .includes(search)
+        );
+    });
+
+
+    if (filtered.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                No orders found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = filtered.map(order => {
+
+        const items = order.items || [];
+
+        return `
+            <article class="order-card">
+
+                <div class="order-top">
+
+                    <div>
+
+                        <div class="order-id">
+                            Order #${order.id}
+                        </div>
+
+                        <div class="customer">
+                            👤 ${escapeHTML(order.customer_name || "")}
+                        </div>
+
+                    </div>
+
+
+                    <select
+                        class="status-select"
+                        onchange="updateStatus(${order.id}, this.value)"
+                    >
+
+                        ${[
+                            "Pending",
+                            "Confirmed",
+                            "Shipped",
+                            "Delivered",
+                            "Cancelled"
+                        ].map(status => `
+                            <option
+                                value="${status}"
+                                ${order.status === status ? "selected" : ""}
+                            >
+                                ${status}
+                            </option>
+                        `).join("")}
+
+                    </select>
+
+                </div>
+
+
+                <div class="details">
+
+                    <div class="detail-box">
+
+                        <div class="detail-title">
+                            Phone
+                        </div>
+
+                        ${escapeHTML(order.phone || "-")}
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-title">
+                            Payment
+                        </div>
+
+                        ${escapeHTML(
+                            order.payment_method ||
+                            "Cash on Delivery"
+                        )}
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <div class="detail-title">
+                            Address
+                        </div>
+
+                        ${escapeHTML(order.address || "-")}
+
+                    </div>
+
+                </div>
+
+
+                <div class="items">
+
+                    <div class="items-title">
+                        🛒 Products
+                    </div>
+
+                    ${items.map(item => `
+                        <div class="item">
+
+                            <div>
+
+                                <div class="item-name">
+                                    ${escapeHTML(item.product_name)}
+                                </div>
+
+                                <div class="item-info">
+                                    Qty: ${item.quantity}
+                                </div>
+
+                            </div>
+
+                            <div>
+                                ₹${Number(item.price).toLocaleString("en-IN")}
+                            </div>
+
+                        </div>
+                    `).join("")}
+
+                </div>
+
+
+                <div class="order-bottom">
+
+                    <div>
+
+                        <div class="total">
+                            Total: ₹${Number(
+                                order.total_amount
+                            ).toLocaleString("en-IN")}
+                        </div>
+
+                        <div class="date">
+                            ${order.created_at
+                                ? new Date(order.created_at)
+                                    .toLocaleString("en-IN")
+                                : ""}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+}
+
+
+async function updateStatus(orderId, status) {
+
+    try {
+
+        const response = await fetch(
+            `${API}/api/admin/orders/${orderId}/status`,
+            {
+                method: "PATCH",
+
+                headers: adminHeaders(),
+
+                body: JSON.stringify({
+                    status
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message);
+        }
+
+        const order = orders.find(
+            item => item.id === orderId
+        );
+
+        if (order) {
+            order.status = status;
+        }
+
+        updateStats();
+
+        alert("Order status updated!");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not update order status.");
+
+        loadOrders();
+    }
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+</script>
+<script>
+let adminProducts = [];
+let editingProductId = null;
+
+
+async function loadProducts() {
+    const container = document.getElementById("products");
+
+    container.innerHTML = "Loading products...";
+
+    try {
+        const response = await fetch(
+            `${API}/api/admin/products`,
+            {
+                method: "GET",
+                headers: adminHeaders()
+            }
+        );
+
+        if (!handleAdminResponse(response)) {
+            return;
+        }
+
+        const result = await response.json();
+
+        console.log("PRODUCTS RESPONSE:", result);
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Failed to load products");
+        }
+
+        adminProducts = result.data || [];
+
+        renderProducts();
+
+    } catch (error) {
+        console.error("LOAD PRODUCTS ERROR:", error);
+
+        container.innerHTML = `
+            <div class="error">
+                Could not load products.<br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+    }
+}
+
+function renderProducts() {
+
+    const container =
+        document.getElementById("products");
+
+    const search =
+        document.getElementById("productSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered = adminProducts.filter(product =>
+        String(product.name || "")
+            .toLowerCase()
+            .includes(search)
+        ||
+        String(product.category || "")
+            .toLowerCase()
+            .includes(search)
+    );
+
+
+    if (filtered.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                No products found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = filtered.map(product => `
+
+        <div class="order-card">
+
+            <div class="order-top">
+
+                <div>
+
+                    <div class="order-id">
+                        ${escapeHTML(product.name)}
+                    </div>
+
+                    <div class="customer">
+                        ${escapeHTML(product.category || "")}
+                    </div>
+
+                </div>
+
+                <div>
+                    <strong>
+                        ₹${Number(product.price)
+                            .toLocaleString("en-IN")}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail-box">
+                    <div class="detail-title">
+                        Stock
+                    </div>
+
+                    ${product.stock ?? 0}
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-title">
+                        Old Price
+                    </div>
+
+                    ₹${product.old_price
+                        ? Number(product.old_price)
+                            .toLocaleString("en-IN")
+                        : "-"}
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-title">
+                        Fit
+                    </div>
+
+                    ${escapeHTML(product.fit || "-")}
+                </div>
+
+
+                <div class="detail-box">
+                    <div class="detail-title">
+                        Badge
+                    </div>
+
+                    ${escapeHTML(product.badge || "-")}
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:15px;">
+
+                <button
+                    class="refresh-btn"
+                    onclick="editProduct('${product.id}')">
+                    Edit
+                </button>
+
+                <button
+                    class="refresh-btn"
+                    onclick="deleteProduct('${product.id}')"
+                    style='margin-left:8px;'>
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+}
+</script>
+
+<script>
+function openProductForm() {
+
+    editingProductId = null;
+
+    document.getElementById("formTitle")
+        .textContent = "Add Product";
+
+    document.getElementById("productForm")
+        .style.display = "block";
+
+    clearProductForm();
+}
+
+
+function closeProductForm() {
+
+    document.getElementById("productForm")
+        .style.display = "none";
+
+    editingProductId = null;
+}
+
+
+function clearProductForm() {
+
+    [
+        "productName",
+        "productDescription",
+        "productPrice",
+        "productOldPrice",
+        "productStock",
+        "productCategory",
+        "productFit",
+        "productBadge",
+        "productImage",
+        "productIcon"
+    ].forEach(id => {
+
+        document.getElementById(id).value = "";
+
+    });
+}
+
+
+function editProduct(id) {
+
+    const product = adminProducts.find(
+        item => Number(item.id) === Number(id)
+    );
+
+    console.log("EDIT CLICKED:", id);
+    console.log("PRODUCT FOUND:", product);
+
+    if (!product) {
+        alert("Product not found.");
+        return;
+    }
+
+    editingProductId = Number(id);
+
+    document.getElementById("formTitle").textContent = "Edit Product";
+    document.getElementById("productForm").style.display = "block";
+
+    document.getElementById("productName").value =
+        product.name || "";
+
+    document.getElementById("productDescription").value =
+        product.description || "";
+
+    document.getElementById("productPrice").value =
+        product.price ?? "";
+
+    document.getElementById("productOldPrice").value =
+        product.old_price ?? "";
+
+    document.getElementById("productStock").value =
+        product.stock ?? 0;
+
+    document.getElementById("productCategory").value =
+        product.category || "";
+
+    document.getElementById("productFit").value =
+        product.fit || "";
+
+    document.getElementById("productBadge").value =
+        product.badge || "";
+
+    document.getElementById("productImage").value =
+        product.image_url || "";
+
+    document.getElementById("productIcon").value =
+        product.icon || "";
+
+    // Scroll to edit form
+    document.getElementById("productForm").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+async function saveProduct() {
+
+    const product = {
+
+        name:
+            document.getElementById("productName")
+                .value.trim(),
+
+        description:
+            document.getElementById("productDescription")
+                .value.trim(),
+
+        price:
+            Number(document.getElementById("productPrice")
+                .value),
+
+        old_price:
+            Number(document.getElementById("productOldPrice")
+                .value) || null,
+
+        stock:
+            Number(document.getElementById("productStock")
+                .value) || 0,
+
+        category:
+            document.getElementById("productCategory")
+                .value.trim(),
+
+        fit:
+            document.getElementById("productFit")
+                .value.trim(),
+
+        badge:
+            document.getElementById("productBadge")
+                .value.trim(),
+
+        image_url:
+            document.getElementById("productImage")
+                .value.trim(),
+
+        icon:
+            document.getElementById("productIcon")
+                .value.trim()
+    };
+
+
+    if (!product.name || !product.price) {
+
+        alert("Product name and price are required.");
+
+        return;
+    }
+
+
+    try {
+
+        const url = editingProductId
+            ? `${API}/api/admin/products/${editingProductId}`
+            : `${API}/api/admin/products`;
+
+        const method = editingProductId
+            ? "PUT"
+            : "POST";
+
+
+        const response = await fetch(url, {
+
+            method,
+
+            headers: adminHeaders(),
+
+            body: JSON.stringify(product)
+
+        });
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+            throw new Error(result.message);
+        }
+
+
+        alert(
+            editingProductId
+                ? "Product updated!"
+                : "Product added!"
+        );
+
+
+        closeProductForm();
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Could not save product.");
+
+    }
+}
+
+
+async function deleteProduct(id) {
+
+    const product = adminProducts.find(
+        item => Number(item.id) === Number(id)
+    );
+
+    if (!product) return;
+
+
+    const confirmed = confirm(
+        `Delete "${product.name}"?`
+    );
+
+    if (!confirmed) return;
+
+
+    try {
+
+        const response = await fetch(
+            `${API}/api/admin/products/${id}`,
+            {
+                method: "DELETE",
+                headers: adminHeaders()
+            }
+        );
+
+
+        const result = await response.json();
+
+
+        if (!result.success) {
+            throw new Error(result.message);
+        }
+
+
+        alert("Product deleted!");
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not delete product."
+        );
+    }
+}
+const loginScreen = document.getElementById("loginScreen");
+const adminDashboard = document.getElementById("adminDashboard");
+const loginForm = document.getElementById("loginForm");
+const loginMessage = document.getElementById("loginMessage");
+
+function checkAdminLogin() {
+    const token = localStorage.getItem("partdash-admin-token");
+
+    if (token) {
+        loginScreen.style.display = "none";
+        adminDashboard.style.display = "block";
+    } else {
+        loginScreen.style.display = "flex";
+        adminDashboard.style.display = "none";
+    }
+}
+
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    loginMessage.textContent = "Logging in...";
+
+    try {
+        const response = await fetch(`${API}/api/admin/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            loginMessage.textContent =
+                result.message || "Login failed";
+            return;
+        }
+
+        localStorage.setItem(
+            "partdash-admin-token",
+            result.token
+        );
+
+        loginMessage.textContent = "Login successful!";
+
+        checkAdminLogin();
+        if (localStorage.getItem("partdash-admin-token")) {
+
+        loadOrders();
+        loadProducts();
+        }
+    } catch (error) {
+        console.error(error);
+        loginMessage.textContent =
+            "Could not connect to server";
+    }
+});
+
+function checkAdminLogin() {
+    const token = localStorage.getItem("partdash-admin-token");
+
+    if (token) {
+        loginScreen.style.display = "none";
+        adminDashboard.style.display = "block";
+    } else {
+        loginScreen.style.display = "flex";
+        adminDashboard.style.display = "none";
+    }
+}
+function handleAdminResponse(response) {
+    if (response.status === 401) {
+        localStorage.removeItem("partdash-admin-token");
+        location.reload();
+        return false;
+    }
+
+    return true;
+}
+</script>
+</body>
+</html>
