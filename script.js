@@ -874,7 +874,7 @@ loadBackendProducts().then(() => {
 });
 async function checkBackend() {
     try {
-        const response = await fetch("http://localhost:5000/api/test-db");
+        const response = await fetch(`${API}/api/test-db`);
         const data = await response.json();
 
         console.log("Backend connected:", data);
@@ -1270,7 +1270,7 @@ async function signupUser(event) {
     resultBox.textContent = "Connecting...";
 
     try {
-        const response = await fetch("http://localhost:5000/api/auth/signup", {
+        const response = await fetch(`${API}/api/auth/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
