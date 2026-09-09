@@ -1,275 +1,1422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>PartDash Delivery</title>
+    <title>PartDash Delivery</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #111827;
+        }
+
+
+        /* LOGIN */
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #111827;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 30px 24px;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* APP */
+
+        .app {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-inner {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .header-logo span {
+            color: #2563eb;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .driver-name {
+            color: #d1d5db;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            border: 0;
+            background: #374151;
+            color: white;
+            padding: 9px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .status-bar {
+            background: white;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,.06);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .status-dot {
+            width: 11px;
+            height: 11px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .status-text {
+            font-weight: 700;
+        }
+
+        .orders-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+
+        /* ORDER CARD */
+
+        .order-card {
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+        }
+
+        .order-top {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-id {
+            font-weight: 800;
+        }
+
+        .order-price {
+            color: #16a34a;
+            font-weight: 800;
+        }
+
+        .order-body {
+            padding: 16px;
+        }
+
+        .location {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .location-icon {
+            width: 35px;
+            height: 35px;
+            min-width: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            border-radius: 50%;
+        }
+
+        .location-label {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .location-address {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .order-items {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .accept-btn {
+            width: 100%;
+            border: 0;
+            background: #2563eb;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .accept-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ACTIVE ORDER */
+
+        .active-order {
+            display: none;
+        }
+
+        .active-header {
+            background: #111827;
+            color: white;
+            padding: 18px;
+            border-radius: 18px 18px 0 0;
+        }
+
+        .active-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .active-title {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .active-status {
+            background: #22c55e;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .active-body {
+            background: white;
+            padding: 18px;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .customer-box {
+            background: #f9fafb;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .customer-name {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .customer-phone {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .navigate-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            background: #16a34a;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .action-btn {
+            width: 100%;
+            border: 0;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .pickup-btn {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .delivered-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+
+        /* EMPTY */
+
+        .empty {
+            text-align: center;
+            padding: 45px 20px;
+            background: white;
+            border-radius: 18px;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .empty h3 {
+            margin-bottom: 6px;
+        }
+
+        .empty p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+
+        /* TOAST */
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%) translateY(100px);
+            background: #111827;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: .3s;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 14px;
+            }
+
+            .header {
+                padding: 14px;
+            }
+
+            .driver-name {
+                display: none;
+            }
+
+            .orders-title {
+                font-size: 20px;
+            }
+
+            .login-box {
+                padding: 25px 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- LOGIN PAGE -->
+
+<div class="login-page" id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">
+            Part<span>Dash</span>
+        </div>
+
+        <div class="login-subtitle">
+            Delivery Partner
+        </div>
+
+
+        <form id="loginForm">
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="loginPhone"
+                    placeholder="Enter mobile number"
+                    maxlength="10"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Delivery Boy Name
+                </label>
+
+                <input
+                    type="text"
+                    id="loginName"
+                    placeholder="Enter your name"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- DELIVERY APP -->
+
+<div class="app" id="app">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-inner">
+
+            <div class="header-logo">
+                Part<span>Dash</span>
+            </div>
+
+
+            <div class="header-right">
+
+                <div
+                    class="driver-name"
+                    id="driverName"
+                >
+                    Delivery Boy
+                </div>
+
+
+                <button
+                    class="logout-btn"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+
+        <!-- ONLINE STATUS -->
+
+        <div class="status-bar">
+
+            <div class="status-left">
+
+                <div class="status-dot"></div>
+
+                <div class="status-text">
+                    Online
+                </div>
+
+            </div>
+
+
+            <div id="orderCount">
+                0 orders
+            </div>
+
+        </div>
+
+
+
+        <!-- AVAILABLE ORDERS -->
+
+        <section id="availableSection">
+
+            <div class="orders-title">
+                Available Orders
+            </div>
+
+
+            <div id="ordersList"></div>
+
+        </section>
+
+
+
+        <!-- ACTIVE ORDER -->
+
+        <section
+            class="active-order"
+            id="activeOrder"
+        >
+
+
+            <div class="active-header">
+
+                <div class="active-header-row">
+
+                    <div class="active-title">
+                        Active Delivery
+                    </div>
+
+
+                    <div
+                        class="active-status"
+                        id="activeStatus"
+                    >
+                        ACCEPTED
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="active-body">
+
+
+                <!-- CUSTOMER -->
+
+                <div class="customer-box">
+
+                    <div
+                        class="customer-name"
+                        id="customerName"
+                    >
+                        Customer
+                    </div>
+
+
+                    <div
+                        class="customer-phone"
+                        id="customerPhone"
+                    >
+                        Phone
+                    </div>
+
+                </div>
+
+
+
+                <!-- PICKUP -->
+
+                <div class="location">
+
+                    <div class="location-icon">
+                        📦
+                    </div>
+
+
+                    <div>
+
+                        <div class="location-label">
+                            PICKUP FROM
+                        </div>
+
+
+                        <div
+                            class="location-address"
+                            id="pickupAddress"
+                        >
+                            PartDash Store
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DELIVERY -->
+
+                <div class="location">
+
+                    <div class="location-icon">
+                        📍
+                    </div>
+
+
+                    <div>
+
+                        <div class="location-label">
+                            DELIVER TO
+                        </div>
+
+
+                        <div
+                            class="location-address"
+                            id="deliveryAddress"
+                        >
+                            Customer Address
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ITEMS -->
+
+                <div
+                    class="order-items"
+                    id="activeItems"
+                ></div>
+
+
+
+                <!-- GOOGLE MAP -->
+
+                <a
+                    href="#"
+                    target="_blank"
+                    class="navigate-btn"
+                    id="navigateBtn"
+                >
+                    🗺️ Navigate
+                </a>
+
+
+
+                <!-- PICKED UP -->
+
+                <button
+                    class="action-btn pickup-btn"
+                    id="pickupBtn"
+                    onclick="markPickedUp()"
+                >
+                    📦 Picked Up
+                </button>
+
+
+
+                <!-- DELIVERED -->
+
+                <button
+                    class="action-btn delivered-btn"
+                    id="deliveredBtn"
+                    onclick="markDelivered()"
+                    style="display:none;"
+                >
+                    ✓ Delivered
+                </button>
+
+
+
+                <!-- CANCEL -->
+
+                <button
+                    class="action-btn cancel-btn"
+                    onclick="cancelActiveOrder()"
+                >
+                    Cancel / Release Order
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+>
+    Message
+</div>
+<script>
+
+const API = "http://localhost:5000";
+
+let driver = JSON.parse(
+    localStorage.getItem("partdash-driver")
+) || null;
+
+let activeOrder = JSON.parse(
+    localStorage.getItem("partdash-active-order")
+) || null;
+
+
+
+
+// ===============================
+// LOGIN
+// ===============================
+
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const phone =
+            document
+                .getElementById("loginPhone")
+                .value
+                .trim();
+
+        const name =
+            document
+                .getElementById("loginName")
+                .value
+                .trim();
+
+        if (phone.length !== 10) {
+
+            showToast(
+                "Enter valid 10 digit mobile number"
+            );
+
+            return;
+        }
+
+        if (!name) {
+
+            showToast(
+                "Enter your name"
+            );
+
+            return;
+        }
+
+        driver = {
+
+            name: name,
+
+            phone: phone
+
+        };
+
+        localStorage.setItem(
+            "partdash-driver",
+            JSON.stringify(driver)
+        );
+
+        openApp();
+
+    });
+
+
+// ===============================
+// OPEN APP
+// ===============================
+
+function openApp() {
+
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+    document
+        .getElementById("app")
+        .style.display = "block";
+
+    document
+        .getElementById("driverName")
+        .textContent = driver.name;
+
+    renderOrders();
+
+    if (activeOrder) {
+
+        showActiveOrder();
+
+    }
+
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f4f6f8;
-    color: #111827;
+
+// ===============================
+// LOGOUT
+// ===============================
+
+function logout() {
+
+    driver = null;
+
+    activeOrder = null;
+
+    localStorage.removeItem(
+        "partdash-driver"
+    );
+
+    localStorage.removeItem(
+        "partdash-active-order"
+    );
+
+    location.reload();
+
 }
 
-/* =========================
-   LOGIN
-========================= */
 
-.login-page {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #111827, #1f2937);
+// ===============================
+// SHOW AVAILABLE ORDERS
+// ===============================
+
+async function renderOrders() {
+
+    const list =
+        document.getElementById("ordersList");
+
+    const count =
+        document.getElementById("orderCount");
+
+    if (activeOrder) {
+
+        list.innerHTML = "";
+
+        count.textContent = "0 orders";
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(`${API}/api/delivery/orders`);
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message || "Failed to load orders"
+            );
+
+        }
+
+        const orders = data.orders || [];
+
+        count.textContent =
+            `${orders.length} orders`;
+
+        if (orders.length === 0) {
+
+            list.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📦</div>
+
+                    <div>
+                        No available orders
+                    </div>
+
+                    <small>
+                        New orders will appear here
+                    </small>
+                </div>
+            `;
+
+            return;
+        }
+
+        list.innerHTML = "";
+
+        orders.forEach(order => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "order-card";
+
+            card.innerHTML = `
+
+                <div class="order-top">
+
+                    <div>
+
+                        <div class="order-id">
+                            #${order.id}
+                        </div>
+
+                        <div class="order-customer">
+                            ${order.customer_name}
+                        </div>
+
+                    </div>
+
+                    <div class="order-price">
+                        ₹${order.total_amount}
+                    </div>
+
+                </div>
+
+                <div class="order-address">
+                    📍 ${order.address}
+                </div>
+
+                <div class="order-items-small">
+
+                    ${(order.items || [])
+                        .map(item =>
+                            `${item.product_name} × ${item.quantity}`
+                        )
+                        .join("<br>")}
+
+                </div>
+
+                <button
+                    class="accept-btn"
+                    onclick="acceptOrder(${order.id})"
+                >
+                    Accept Order
+                </button>
+
+            `;
+
+            list.appendChild(card);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Load delivery orders error:",
+            error
+        );
+
+        list.innerHTML = `
+            <div class="empty-state">
+                Unable to load orders
+            </div>
+        `;
+
+        count.textContent = "0 orders";
+
+    }
+
 }
 
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    background: white;
-    border-radius: 22px;
-    padding: 30px 24px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+
+// ===============================
+// ACCEPT ORDER
+// ===============================
+
+function acceptOrder(orderId) {
+
+    const order =
+        demoOrders.find(
+            item => item.id === orderId
+        );
+
+    if (!order) {
+
+        showToast(
+            "Order not found"
+        );
+
+        return;
+    }
+
+    activeOrder = {
+
+        ...order,
+
+        delivery_status: "Accepted"
+
+    };
+
+
+    localStorage.setItem(
+
+        "partdash-active-order",
+
+        JSON.stringify(activeOrder)
+
+    );
+
+
+    showActiveOrder();
+
+    showToast(
+        "Order accepted successfully"
+    );
+
 }
 
-.logo {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 800;
-    margin-bottom: 8px;
+
+// ===============================
+// SHOW ACTIVE ORDER
+// ===============================
+
+function showActiveOrder() {
+
+    if (!activeOrder) {
+
+        return;
+    }
+
+
+    document
+        .getElementById("availableSection")
+        .style.display = "none";
+
+
+    document
+        .getElementById("activeOrder")
+        .style.display = "block";
+
+
+    document
+        .getElementById("customerName")
+        .textContent =
+        activeOrder.customer_name;
+
+
+    document
+        .getElementById("customerPhone")
+        .textContent =
+        activeOrder.phone;
+
+
+    document
+        .getElementById("pickupAddress")
+        .textContent =
+        "PartDash Store";
+
+
+    document
+        .getElementById("deliveryAddress")
+        .textContent =
+        activeOrder.address;
+
+
+    document
+        .getElementById("activeStatus")
+        .textContent =
+        activeOrder.delivery_status
+        .toUpperCase();
+
+
+    const items =
+        document.getElementById(
+            "activeItems"
+        );
+
+
+    items.innerHTML = "";
+
+
+    activeOrder.items.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "active-item";
+
+
+        div.innerHTML = `
+
+            <span>
+                ${item.product_name}
+                × ${item.quantity}
+            </span>
+
+            <span>
+                ₹${item.price}
+            </span>
+
+        `;
+
+
+        items.appendChild(div);
+
+    });
+
+
+    const address =
+        encodeURIComponent(
+            activeOrder.address
+        );
+
+
+    document
+        .getElementById("navigateBtn")
+        .href =
+        `https://www.google.com/maps/dir/?api=1&destination=${address}`;
+
+
+    updateButtons();
+
 }
 
-.logo span {
-    color: #2563eb;
+
+// ===============================
+// PICKED UP
+// ===============================
+
+function markPickedUp() {
+
+    if (!activeOrder) {
+
+        return;
+    }
+
+
+    activeOrder.delivery_status =
+        "Picked Up";
+
+
+    localStorage.setItem(
+
+        "partdash-active-order",
+
+        JSON.stringify(activeOrder)
+
+    );
+
+
+    showActiveOrder();
+
+
+    showToast(
+        "Order marked as picked up"
+    );
+
 }
 
-.login-subtitle {
-    text-align: center;
-    color: #6b7280;
-    margin-bottom: 28px;
+
+// ===============================
+// DELIVERED
+// ===============================
+
+function markDelivered() {
+
+    if (!activeOrder) {
+
+        return;
+    }
+
+
+    activeOrder.delivery_status =
+        "Delivered";
+
+
+    localStorage.removeItem(
+        "partdash-active-order"
+    );
+
+
+    activeOrder = null;
+
+
+    document
+        .getElementById("activeOrder")
+        .style.display = "none";
+
+
+    document
+        .getElementById("availableSection")
+        .style.display = "block";
+
+
+    renderOrders();
+
+
+    showToast(
+        "Order delivered successfully"
+    );
+
 }
 
-.input-group {
-    margin-bottom: 16px;
+
+// ===============================
+// CANCEL / RELEASE
+// ===============================
+
+function cancelActiveOrder() {
+
+    if (!activeOrder) {
+
+        return;
+    }
+
+
+    activeOrder = null;
+
+
+    localStorage.removeItem(
+        "partdash-active-order"
+    );
+
+
+    document
+        .getElementById("activeOrder")
+        .style.display = "none";
+
+
+    document
+        .getElementById("availableSection")
+        .style.display = "block";
+
+
+    renderOrders();
+
+
+    showToast(
+        "Order released"
+    );
+
 }
 
-.input-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 7px;
+
+// ===============================
+// BUTTON STATE
+// ===============================
+
+function updateButtons() {
+
+    const pickupBtn =
+        document.getElementById(
+            "pickupBtn"
+        );
+
+    const deliveredBtn =
+        document.getElementById(
+            "deliveredBtn"
+        );
+
+
+    if (
+        activeOrder.delivery_status ===
+        "Picked Up"
+    ) {
+
+        pickupBtn.style.display =
+            "none";
+
+        deliveredBtn.style.display =
+            "block";
+
+    } else {
+
+        pickupBtn.style.display =
+            "block";
+
+        deliveredBtn.style.display =
+            "none";
+
+    }
+
 }
 
-.input-group input {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 12px;
-    outline: none;
-    font-size: 15px;
+
+// ===============================
+// TOAST
+// ===============================
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    }, 2500);
+
 }
 
-.input-group input:focus {
-    border-color: #2563eb;
+
+// ===============================
+// AUTO LOGIN
+// ===============================
+
+if (driver) {
+
+    openApp();
+
 }
 
-.login-btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: #2563eb;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
+</script>
 
-.login-btn:hover {
-    background: #1d4ed8;
-}
+</body>
 
-.demo-text {
-    text-align: center;
-    font-size: 12px;
-    color: #9ca3af;
-    margin-top: 15px;
-}
-
-/* =========================
-   APP
-========================= */
-
-.app {
-    display: none;
-    min-height: 100vh;
-}
-
-/* HEADER */
-
-.header {
-    background: #111827;
-    color: white;
-    padding: 16px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.header-inner {
-    max-width: 900px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-logo {
-    font-size: 23px;
-    font-weight: 800;
-}
-
-.header-logo span {
-    color: #60a5fa;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.driver-name {
-    font-size: 14px;
-    color: #d1d5db;
-}
-
-.logout-btn {
-    background: #374151;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* MAIN */
-
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
-
-/* STATUS */
-
-.status-bar {
-    background: white;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-}
-
-.status-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.status-dot {
-    width: 11px;
-    height: 11px;
-    background: #22c55e;
-    border-radius: 50%;
-}
-
-.status-text {
-    font-weight: 700;
-}
-
-.orders-title {
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 14px;
-}
-
-/* ORDER CARD */
-
-.order-card {
-    background: white;
-    border-radius: 18px;
-    margin-bottom: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-}
-
-.order-top {
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #eee;
-}
-
-.order-id {
-    font-weight: 800;
-}
-
-.order-price {
-    font-weight: 800;
-    color: #16a34a;
-}
-
-.order-body {
-    padding: 16px;
-}
-
-.location {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-}
-
-.location-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #eff6ff;
-    flex-shrink: 0;
-}
-
-.location-info {
-    flex: 1;
-}
-
-.location-label {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 3px;
-}
-
-.location-address {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.order-items {
-    margin-bottom: 18px;
-}
+</html>
